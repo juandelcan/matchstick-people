@@ -1,0 +1,422 @@
+/*
+ * THE MATCHSTICK PEOPLE — Global Design System v2
+ * Design Philosophy: Cinematic Editorial — Image-Dominant, Asymmetric, Uncompromising
+ *
+ * References: RadicalMedia.com, TheGreatDiscontent.com, CanadaCanada.com
+ *
+ * Rules:
+ *   — Images lead. Type punctuates.
+ *   — No rounded corners. Ever.
+ *   — No cards. No borders. No shadows.
+ *   — Asymmetric always. Never centered grids.
+ *   — Whitespace is structural, not decorative.
+ *
+ * Palette:
+ *   Background:  #F5F0E8  (warm parchment — slightly darker than before)
+ *   Text:        #0D0C0A  (near-black — deeper ink)
+ *   Red accent:  #C8251A  (match head — slightly deeper)
+ *   Wood:        #B8956A  (matchstick body)
+ *   Muted:       #6B6560  (secondary text)
+ *   Divider:     #E0D9CE
+ *
+ * Typography:
+ *   Display:  Playfair Display — pushed to extremes (3rem–12rem)
+ *   Body:     Plus Jakarta Sans — clean, modern, rounded sans-serif (closest to Google Sans)
+ *   Label:    DM Mono — monospaced precision for metadata
+ */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 0px;
+  --background: oklch(0.965 0.01 78);
+  --foreground: oklch(0.12 0.01 65);
+  --card: oklch(0.965 0.01 78);
+  --card-foreground: oklch(0.12 0.01 65);
+  --popover: oklch(0.965 0.01 78);
+  --popover-foreground: oklch(0.12 0.01 65);
+  --primary: oklch(0.40 0.18 27);
+  --primary-foreground: oklch(0.98 0.005 75);
+  --secondary: oklch(0.92 0.012 75);
+  --secondary-foreground: oklch(0.12 0.01 65);
+  --muted: oklch(0.92 0.012 75);
+  --muted-foreground: oklch(0.48 0.02 65);
+  --accent: oklch(0.70 0.08 65);
+  --accent-foreground: oklch(0.12 0.01 65);
+  --destructive: oklch(0.40 0.18 27);
+  --destructive-foreground: oklch(0.98 0.005 75);
+  --border: oklch(0.86 0.015 75);
+  --input: oklch(0.86 0.015 75);
+  --ring: oklch(0.40 0.18 27);
+
+  /* Brand tokens */
+  --ink:       #0D0C0A;
+  --linen:     #F5F0E8;
+  --red:       #C8251A;
+  --wood:      #B8956A;
+  --muted-txt: #6B6560;
+  --divider:   #E0D9CE;
+  --ink-dark:  #1A1714;
+}
+
+/* ─────────────────────────────────────────────
+   BASE
+───────────────────────────────────────────── */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+    border-radius: 0 !important;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--linen);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 300;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  a { text-decoration: none; color: inherit; }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  a[href] {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background-color: rgba(200, 37, 26, 0.18);
+    color: var(--ink);
+  }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--linen); }
+  ::-webkit-scrollbar-thumb { background: var(--divider); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--wood); }
+}
+
+/* ─────────────────────────────────────────────
+   LAYOUT UTILITIES
+───────────────────────────────────────────── */
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  @media (min-width: 640px) {
+    .container { padding-left: 2.5rem; padding-right: 2.5rem; }
+  }
+  @media (min-width: 1024px) {
+    .container { padding-left: 5rem; padding-right: 5rem; max-width: 1600px; }
+  }
+
+  .flex { min-height: 0; min-width: 0; }
+
+  /* ─── TYPOGRAPHY SCALE ─── */
+
+  /* Legacy aliases — duplicate styles directly to avoid @apply of custom classes */
+  .display-xl {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4.5rem, 11vw, 13rem);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+  }
+  .display-lg {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 8rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.025em;
+  }
+  .display-md {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .label-sm {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-txt);
+  }
+  .nav-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background-color: var(--divider);
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.94);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* ─── IMAGE HOVER ZOOM ─── */
+  .img-zoom {
+    overflow: hidden;
+  }
+  .img-zoom img {
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+  .img-zoom:hover img {
+    transform: scale(1.05);
+  }
+
+  /* ─── PRESS MARQUEE ─── */
+  @keyframes marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 40s linear infinite;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* ─── PAGE TRANSITION ─── */
+  @keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .page-enter {
+    animation: pageFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* ─── CURSOR LINE (red underline on hover) ─── */
+  .hover-line {
+    position: relative;
+    display: inline-block;
+  }
+  .hover-line::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--red);
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hover-line:hover::after { width: 100%; }
+
+  /* ─── NAV ─── */
+  .nav-transparent {
+    background: transparent;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  .nav-solid {
+    background: rgba(245, 240, 232, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--divider);
+  }
+
+  /* ─── VIDEO HERO ─── */
+  .video-hero-wrap {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .video-hero-wrap iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 177.78vh; /* 16:9 */
+    height: 100vh;
+    min-width: 100%;
+    min-height: 56.25vw; /* 9/16 */
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    border: none;
+  }
+  .video-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(13,12,10,0.15) 0%,
+      rgba(13,12,10,0.0) 40%,
+      rgba(13,12,10,0.0) 60%,
+      rgba(13,12,10,0.55) 100%
+    );
+    z-index: 1;
+  }
+
+  /* ─── MASONRY GRID ─── */
+  .masonry-grid {
+    columns: 2;
+    column-gap: 3px;
+  }
+  .masonry-grid > * {
+    break-inside: avoid;
+    margin-bottom: 3px;
+  }
+  @media (min-width: 1024px) {
+    .masonry-grid { columns: 3; }
+  }
+
+  /* ─── FILM GRID (Work page) ─── */
+  .film-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px;
+  }
+  @media (min-width: 1024px) {
+    .film-grid {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+  .film-grid .film-item-wide {
+    grid-column: span 2;
+  }
+
+  /* ─── SCROLL TICKER ─── */
+  @keyframes ticker {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: ticker 25s linear infinite;
+  }
+
+  /* ─── PARALLAX CONTAINER ─── */
+  .parallax-img {
+    will-change: transform;
+    transition: transform 0.1s linear;
+  }
+
+  /* ─── STAGGER DELAYS ─── */
+  .delay-100 { transition-delay: 100ms; }
+  .delay-200 { transition-delay: 200ms; }
+  .delay-300 { transition-delay: 300ms; }
+  .delay-400 { transition-delay: 400ms; }
+  .delay-500 { transition-delay: 500ms; }
+  .delay-600 { transition-delay: 600ms; }
+
+  /* ─── CROSSFADE SLIDESHOW (fallback hero) ─── */
+  @keyframes crossfade {
+    0%   { opacity: 1; }
+    28%  { opacity: 1; }
+    33%  { opacity: 0; }
+    95%  { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  /* ─── SCROLL PROGRESS BAR ─── */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--red);
+    z-index: 9999;
+    transform-origin: left;
+    transition: transform 0.1s linear;
+  }
+}
