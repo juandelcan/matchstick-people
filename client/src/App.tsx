@@ -12,6 +12,7 @@ import Shop from "./pages/Shop";
 import SizeSelect from "./pages/SizeSelect";
 import OrderConfirmed from "./pages/OrderConfirmed";
 import Contact from "./pages/Contact";
+import Lab from "./pages/Lab";
 import Layout from "./components/Layout";
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -26,6 +27,7 @@ function Router() {
         <Route path="/shop/select" component={SizeSelect} />
         <Route path="/order-confirmed" component={OrderConfirmed} />
         <Route path="/contact" component={Contact} />
+        <Route path="/lab" component={Lab} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
