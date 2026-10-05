@@ -16,8 +16,18 @@ const navItems = [
   { href: "/press",   label: "Press" },
   { href: "/shop",    label: "Shop" },
   { href: "/lab",     label: "Lab" },
+  { href: "/clock/",  label: "Clock" },
   { href: "/contact", label: "Contact" },
 ];
+
+// The clock is its own standalone page (public/clock/index.html), not a React
+// route, so it needs a real page load instead of a client-side Link.
+function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+  if (href === "/clock/") {
+    return <a href={href} style={{ textDecoration: "none", color: "inherit" }}>{children}</a>;
+  }
+  return <Link href={href}>{children}</Link>;
+}
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [location] = useLocation();
@@ -126,11 +136,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
           <nav className="hidden-mobile" style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
             {navItems.map((item) => (
-              <Link key={item.href} href={item.href}>
+              <NavLink key={item.href} href={item.href}>
                 <span style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.65rem", letterSpacing: "0.14em", textTransform: "uppercase" as const, color: location === item.href ? "#C8251A" : linkColor, transition: "color 0.3s ease", display: "inline-block", paddingBottom: "2px", borderBottom: location === item.href ? "1px solid #C8251A" : "1px solid transparent" }}>
                   {item.label}
                 </span>
-              </Link>
+              </NavLink>
             ))}
             {/* Divider */}
             <span style={{ width: "1px", height: "16px", background: linkColor, opacity: 0.25, display: "block" }} />
@@ -156,11 +166,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       {menuOpen && (
         <div style={{ position: "fixed", top: "64px", left: 0, right: 0, bottom: 0, backgroundColor: "#F5F0E8", zIndex: 999, display: "flex", flexDirection: "column" as const, justifyContent: "center", padding: "3rem 2.5rem" }}>
           {navItems.map((item, i) => (
-            <Link key={item.href} href={item.href}>
+            <NavLink key={item.href} href={item.href}>
               <div style={{ fontFamily: "'Playfair Display', serif", fontSize: "3rem", fontWeight: 400, color: location === item.href ? "#C8251A" : "#0D0C0A", padding: "0.75rem 0", borderBottom: "1px solid #E0D9CE", letterSpacing: "-0.02em", lineHeight: 1.1, animation: `pageFadeIn 0.4s ease ${i * 0.06}s both` }}>
                 {item.label}
               </div>
-            </Link>
+            </NavLink>
           ))}
           <a href="https://www.instagram.com/juan_delcan/" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "1.25rem 0", color: "#0D0C0A", textDecoration: "none", animation: `pageFadeIn 0.4s ease ${navItems.length * 0.06}s both` }}>
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -191,9 +201,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div>
               <p style={{ fontFamily: "'DM Mono', monospace", fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "rgba(245,240,232,0.3)", marginBottom: "1.25rem" }}>Navigate</p>
               {navItems.map((item) => (
-                <Link key={item.href} href={item.href}>
+                <NavLink key={item.href} href={item.href}>
                   <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: "0.85rem", color: "rgba(245,240,232,0.55)", marginBottom: "0.6rem" }}>{item.label}</div>
-                </Link>
+                </NavLink>
               ))}
             </div>
             <div>
